@@ -1,0 +1,38 @@
+{
+  "manifest_version": 2,
+  "name": "S1 Blacklist Ext",
+  "description": "S1 blacklist extension",
+  "version": "1.0",
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html",
+    "default_title": "S1 Blacklist Ext"
+  },
+  "background": {
+    "scripts": [
+      "bg.js"
+    ]
+  },
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://bbs.saraba1st.com/2b/*"
+      ],
+      "js": [
+        "jquery.js",
+        "content.js"
+      ]
+    }
+  ],
+  "permissions": [
+    "tabs",
+    "storage",
+    "contextMenus",
+    "http://bbs.saraba1st.com/2b/*"
+  ]
+}
