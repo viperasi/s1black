@@ -1,5 +1,6 @@
 # s1black
-s1 blacklist extension
+S1 黑名单主题插件
+隐藏已加入黑名单用户发布的主题
 
 # 安装步骤
 1. 下载zip包

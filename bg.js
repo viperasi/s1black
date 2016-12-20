@@ -3,17 +3,17 @@ var id = chrome.contextMenus.create({
 });
 
 chrome.contextMenus.onClicked.addListener(function (info, tab) {
-    save(info.selectionText);
+    save(info.selectionText.trim());
 });
 
 chrome.storage.local.get(["s1blacklist"], function (item) {
     chrome.tabs.query({
+        active: true,
         currentWindow: true,
         url: "http://bbs.saraba1st.com/2b/*"
     }, function (tabs) {
         chrome.tabs.sendMessage(tabs[0].id, {
-            type: 'remove',
-            item: item
+            type: 'remove'
         });
     });
 });
@@ -21,17 +21,15 @@ chrome.storage.local.get(["s1blacklist"], function (item) {
 chrome.storage.onChanged.addListener(function (changes, namespace) {
     for (key in changes) {
         if (key == 's1blacklist') {
-            chrome.storage.local.get(["s1blacklist"], function (item) {
-                chrome.tabs.query({
-                    currentWindow: true,
-                    url: "http://bbs.saraba1st.com/2b/*"
-                }, function (tabs) {
-                    chrome.tabs.sendMessage(tabs[0].id, {
-                        type: 'remove',
-                        item: item
-                    });
+            chrome.tabs.query({
+                active: true,
+                currentWindow: true,
+                url: "http://bbs.saraba1st.com/2b/*"
+            }, function (tabs) {
+                console.log(tabs);
+                chrome.tabs.sendMessage(tabs[0].id, {
+                    type: 'remove'
                 });
-
             });
         }
     }
@@ -50,13 +48,13 @@ function save(theValue) {
         } else {
             list = item.s1blacklist;
         }
-        for(var i=0;i<list.length;i++){
+        for (var i = 0; i < list.length; i++) {
             var name = list[i];
-            if(name == theValue){
+            if (name == theValue) {
                 return;
             }
         }
-        list.push(theValue.trim());
+        list.push(theValue);
         chrome.storage.local.set({ 's1blacklist': list });
     });
 }

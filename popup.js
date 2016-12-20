@@ -5,7 +5,7 @@
 $(function () {
     genList();
     $("#save").click(function () {
-        save($("#name").val());
+        save($("#name").val().trim());
         $("#name").val('');
     });
 });
