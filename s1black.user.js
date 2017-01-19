@@ -50,13 +50,15 @@ function viewlist() {
     }).appendTo(view_panel_bar);
     var view_panel_add_btn = $('<button>').append('添加').click(function () {
         var theValue = $('#' + BLACKINPUT).val().trim();
-        add(theValue);
-        $('#' + BLACKINPUT).val('');
-        var btn = $('<button>X</button>').click(function () {
-            del(name);
-        });
-        var item = $('<span>').css('margin', '5px').attr('id', BLACKPRE + theValue).append(btn).append(theValue);
-        view_panel_list.append(item);
+        if (theValue != '') {
+            add(theValue);
+            $('#' + BLACKINPUT).val('');
+            var btn = $('<button>X</button>').click(function () {
+                del(name);
+            });
+            var item = $('<span>').css('margin', '5px').attr('id', BLACKPRE + theValue).append(btn).append(theValue);
+            view_panel_list.append(item);
+        }
     }).appendTo(view_panel_bar);
     var view_panel_close = $('<span>').css('float', 'right').addClass('flbc').append('关闭').click(function () {
         view_panel.hide();
@@ -112,7 +114,7 @@ function save(list) {
 }
 
 // 获取黑名单列表
-function get(){
+function get() {
     return GM_getValue(BLACKLIST, []);
 }
 
