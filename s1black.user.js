@@ -80,6 +80,19 @@ function viewlist() {
         view_panel.show();
     });
     navbar_ul.append(view_li);
+
+    var authi = $('.authi>a.xw1');
+    $.each(authi, function(i, item){
+        var btn = $('<button>').append('+').click(function(){
+            add($(item).text());
+            location.reload();
+        });
+        $(item).parent().append(btn);
+    });
+    // $.each(authi, function(i, item){
+    //     console.log($(item).find('.xw1').text(), $(item));
+    //     var btn = $('<button>').append('+');
+    // });
 }
 
 // 添加黑名单
