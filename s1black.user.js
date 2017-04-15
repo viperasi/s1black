@@ -5,6 +5,7 @@
 // @description  S1 blacklist ext.
 // @author       viperasi
 // @match        http://bbs.saraba1st.com/2b/*
+// @match        https://bbs.stage1.cc/*
 // @require      http://cdn.staticfile.org/jquery/2.1.1/jquery.min.js
 // @updateURL    https://raw.githubusercontent.com/viperasi/s1black/master/s1black.user.js
 // @grant        GM_listValues
