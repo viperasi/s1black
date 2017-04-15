@@ -29,7 +29,7 @@ var BLACKINPUT = 's1blackname';
 function viewlist() {
     var list = get();
     var navbar_ul = $('#nv>ul');
-    var view_li = $('<li>').attr('id', 's1black_bl_view').append('<a href="#">S1黑名单</a>');
+    var view_li = $('<li>').attr('id', 's1black_bl_view').append('<a href="javascript:void(0);">S1黑名单</a>');
     var view_panel = $('<div>').css({
         'border': 'solid 2px',
         'border-radius': '4px',
