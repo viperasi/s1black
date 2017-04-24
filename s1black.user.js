@@ -99,7 +99,7 @@ function viewlist() {
             var href = tt.attr('href');
             var threadId = href.substring(7, href.length - 9);
             var tb = $("<a>").css({
-                'color': 'red',
+                'float': 'right',
                 'cursor': 'pointer'
             }).append('[屏蔽主题]').click(function(){
                 add(threadId, 'thread');
