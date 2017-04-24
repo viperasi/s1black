@@ -1,8 +1,8 @@
 # s1black
 S1 黑名单主题插件
-隐藏已加入黑名单用户发布的主题 
-2016/12/26 隐藏黑名单用户发的回帖 
-跟s1自带的黑名单没关系，需要在插件里加入才算
+隐藏已加入黑名单用户发布的主题  
+2016/12/26  
+ 隐藏黑名单用户发的回帖, 跟s1自带的黑名单没关系，需要在插件里加入才算
 
 2017/01/17  
  增加油猴版本(s1black.user.js), 添加方法请查看[https://greasyfork.org/zh-CN/help/installing-user-scripts](https://greasyfork.org/zh-CN/help/installing-user-scripts)
