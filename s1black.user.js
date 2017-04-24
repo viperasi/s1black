@@ -89,7 +89,6 @@ function viewlist() {
             }).append('[屏蔽主题]').click(function(){
                 var threadId = href.substring(7, href.length - 9);
                 add(threadId, 'thread');
-                location.reload();
             });
     threadTitle.after(threadBlock);
 

@@ -4,16 +4,18 @@ S1 黑名单主题插件
 2016/12/26 隐藏黑名单用户发的回帖 
 跟s1自带的黑名单没关系，需要在插件里加入才算
 
-2017/01/17 增加油猴版本(s1black.user.js), 添加方法请查看[https://greasyfork.org/zh-CN/help/installing-user-scripts](https://greasyfork.org/zh-CN/help/installing-user-scripts)
+2017/01/17  
+ 增加油猴版本(s1black.user.js), 添加方法请查看[https://greasyfork.org/zh-CN/help/installing-user-scripts](https://greasyfork.org/zh-CN/help/installing-user-scripts)
 
-# 安装步骤
-1. 下载zip包
-2. 解压
-3. chrome里打开[chrome://extensions/](chrome://extensions/)
-4. 勾选开发者模式
-5. 点击"加载已解压的扩展程序..."
-6. 选择前面解压的目录即可
+2017/04/24  
+ 添加根据帖子ID屏蔽帖子功能
+ 稍微整理了一下页面
 
 # 使用（两种方式）
-1. 点击插件按钮,在输入框中输入用户名并点击添加
-2. 在S1网页选择用户名后点击右键，选择加入黑名单
+## 用户
+1. 点击用户头像旁边的[+]按钮，添加该用户黑名单  
+2. 在插件面板中输入用户ID  
+
+## 帖子
+1. 在帖子列表页面点击 [屏蔽主题]， 屏蔽当前主题.  
+2. 在帖子内容页点击标题后面的[屏蔽主题]， 屏蔽当前主题， 此方式下需要刷新帖子列表页才能生效.
