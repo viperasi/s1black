@@ -263,7 +263,7 @@ function blackthread() {
 
 // 屏蔽回帖
 function blackcomment() {
-    var list = get();
+    var list = get('user');
     var tlist = $('a.xw1');
     $.each(tlist, function (index, thread) {
         var tname = $(thread).text();
