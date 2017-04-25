@@ -20,9 +20,14 @@ var BLACKLIST = 's1blacklist';
 var BLACKPRE = 's1black';
 var BLACKINPUT = 's1blackname';
 (function () {
-    viewlist();
-    blackthread();
-    blackcomment();
+    var href = window.location.href;
+    if(href.indexOf('forum.php?mod=post') != -1){
+        return;
+    }else{
+        viewlist();
+        blackthread();
+        blackcomment();
+    }
 })();
 
 // 黑名单展示
@@ -66,7 +71,7 @@ function viewlist() {
     }).appendTo(view_panel);
     panel_user.appendTo(view_panel);
     panel_thread.appendTo(view_panel).hide();
-    view_panel.appendTo('body').hide();
+    view_panel.appendTo('body#nv_forum').hide();
     view_li.on('click', function () {
         view_panel.show();
     });
