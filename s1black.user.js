@@ -127,7 +127,7 @@ function initUser(){
     var view_panel_add_btn = $('<button>').append('添加').click(function () {
         var theValue = $('#' + BLACKINPUT).val().trim();
         if (theValue != '') {
-            add(theValue);
+            add(theValue, 'user');
             $('#' + BLACKINPUT).val('');
             var btn = $('<a>').click(function () {
                 if(window.confirm('确定要删除该ID吗?')){
