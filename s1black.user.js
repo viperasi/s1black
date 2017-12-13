@@ -7,6 +7,7 @@
 // @match        http://bbs.saraba1st.com/2b/*
 // @match        https://bbs.stage1.cc/*
 // @require      http://cdn.staticfile.org/jquery/2.1.1/jquery.min.js
+// @require      https://cdn.staticfile.org/remoteStorage/0.14.0/remotestorage.min.js
 // @updateURL    https://raw.githubusercontent.com/viperasi/s1black/master/s1black.user.js
 // @grant        GM_listValues
 // @grant        GM_setValue
@@ -33,7 +34,14 @@ var BLACKINPUT = 's1blackname';
 // 黑名单展示
 function viewlist() {
     var navbar_ul = $('#nv>ul');
-    var view_li = $('<li>').attr('id', 's1black_bl_view').append('<a href="javascript:void(0);">S1黑名单</a>');
+    var view_li;
+    if(navbar_ul.length>0){
+        view_li = $('<li>').attr('id', 's1black_bl_view').append('<a href="javascript:void(0);">S1黑名单</a>');
+    }else{
+        navbar_ul = $("#toptb>.wp>.z");
+        view_li = $('<a href="javascript:void(0);">S1黑名单</a>');
+    }
+    
     var view_panel = $('<div>').css({
         'border': 'solid 2px',
         'border-radius': '4px',
