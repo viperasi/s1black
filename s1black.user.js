@@ -8,6 +8,9 @@
 // @match        https://bbs.stage1.cc/*
 // @require      http://cdn.staticfile.org/jquery/2.1.1/jquery.min.js
 // @require      https://cdn.staticfile.org/remoteStorage/0.14.0/remotestorage.min.js
+// @require      https://cdn.staticfile.org/draggabilly/2.1.1/draggabilly.pkgd.min.js
+// @require      https://cdn1.lncld.net/static/js/3.5.0/av-min.js
+// @require      https://cdn.staticfile.org/spark-md5/3.0.0/spark-md5.min.js
 // @updateURL    https://raw.githubusercontent.com/viperasi/s1black/master/s1black.user.js
 // @grant        GM_listValues
 // @grant        GM_setValue
@@ -20,22 +23,90 @@
 var BLACKLIST = 's1blacklist';
 var BLACKPRE = 's1black';
 var BLACKINPUT = 's1blackname';
+var useCloud = true; //启用云存储, true为启用云存储.
+var APP_ID = '';
+var APP_KEY = '';
+var BU_NAME = "BlockUser";
+var BT_NAME = "BlockThread";
+// 自动获取
+var USER_ID = '';
+// 设置密码，请勿使用简单密码，也请勿使用S1密码
+var USER_PWD = '';
+
+if(!APP_ID || !APP_KEY){
+    useCloud = false;
+}
+
+AV.init({
+    appId: APP_ID,
+    appKey: APP_KEY
+});
+//{bunick, uid, pwd}
+var BlockUser = AV.Object.extend(BU_NAME);
+//{btid, uid, pwd}
+var BlockThread = AV.Object.extend(BT_NAME);
+
 (function () {
     var href = window.location.href;
     if(href.indexOf('forum.php?mod=post') != -1){
         return;
     }else{
+        if(useCloud){
+            getData();
+        }
         viewlist();
         blackthread();
         blackcomment();
     }
 })();
 
+function genPwd(){
+    var spark = new SparkMD5();
+    spark.append(USER_PWD);
+    var hexHash = spark.end();
+    return hexHash;
+}
+
+function getData(){
+    var uhref = $(".vwmy>a").attr('href');
+    USER_ID = uhref.split('-')[2].split('.')[0];
+    
+    var uq = new AV.Query(BU_NAME);
+    uq.equalTo('uid', USER_ID);
+    var pq = new AV.Query(BU_NAME);
+    pq.equalTo('pwd', genPwd());
+    var qu = new AV.Query.and(uq, pq);
+    qu.find().then(function (bulist) {
+        var l = [];
+        bulist.forEach(element => {
+            l.push(element.get('bunick'));
+        });
+        save(l, 'user');
+    }).catch(function(error) {
+        alert(JSON.stringify(error));
+    });
+
+    var tuq = new AV.Query(BT_NAME);
+    tuq.equalTo('uid', USER_ID);
+    var tpq = new AV.Query(BT_NAME);
+    tpq.equalTo("pwd", genPwd());
+    var qt = new AV.Query.and(tuq, tpq);
+    qt.find().then(function(btlist){
+        var l = [];
+        btlist.forEach(element => {
+            l.push(element.get('btid'));
+        });
+        save(l, 'thread');
+    }).catch(function(error) {
+        alert(JSON.stringify(error));
+    });
+}
+
 // 黑名单展示
 function viewlist() {
     var navbar_ul = $("#toptb>.wp>.z");
     var view_li;
-    if(navbar_ul.length>0){
+    if(navbar_ul.length<=0){
         view_li = $('<a href="javascript:void(0);">S1黑名单</a>');
     }else{
         navbar_ul = $('#nv>ul');
@@ -51,10 +122,10 @@ function viewlist() {
         'background': '#f6f7eb',
         'position': 'fixed',
         'z-index': '999',
-        'overflow': 'hidden',
+        'overflow': 'auto',
         'left': '200px',
         'top': '200px'
-    });
+    }).attr("id", BLACKPRE + "_main");
     var view_panel_tab = $('<ul>').addClass('tb').addClass('cl');
     var view_panel_li_user = $('<li>').attr('id', BLACKPRE + '_panel_li_user').addClass('a').css('cursor', 'pointer').append('<a>用户黑名单</a>').click(function(){
         $(this).addClass('a');
@@ -121,6 +192,7 @@ function viewlist() {
             tt.after(tb);
         });
     });
+    $('#' + BLACKPRE + "_main").draggabilly();
 }
 
 // 初始化用户面板
@@ -217,6 +289,21 @@ function add(theValue, type) {
             return;
         }
     }
+    if(useCloud){
+        if(type == 'user'){
+            var bu = new BlockUser();
+            bu.set('bunick', theValue);
+            bu.set('uid', USER_ID);
+            bu.set('pwd', genPwd());
+            bu.save();
+        }else{
+            var bt = new BlockThread();
+            bt.set('btid', theValue);
+            bt.set('uid', USER_ID);
+            bt.set('pwd', genPwd());
+            bt.save();
+        }
+    }
     list.push(theValue);
     save(list, type);
 }
@@ -231,6 +318,36 @@ function del(theValue, type) {
         }
     });
     save(newlist, type);
+    if(useCloud){
+        if(type == 'user'){
+            var uq = new AV.Query(BU_NAME);
+            uq.equalTo("bunick", theValue);
+            var iq = new AV.Query(BU_NAME);
+            iq.equalTo("uid", USER_ID);
+            var pq = new AV.Query(BU_NAME);
+            pq.equalTo("pwd", genPwd());
+            var query = new AV.Query.and(uq, iq, pq);
+            query.first().then(function(bu){
+                console.log(bu);
+                bu.destroy();
+            }).catch(function(error) {
+                alert(JSON.stringify(error));
+            });
+        }else{
+            var uq = new AV.Query(BT_NAME);
+            uq.equalTo("btid", theValue);
+            var iq = new AV.Query(BT_NAME);
+            iq.equalTo("uid", USER_ID);
+            var pq = new AV.Query(BT_NAME);
+            pq.equalTo("pwd", genPwd());
+            var query = new AV.Query.and(uq, iq, pq);
+            query.first().then(function(bt){
+                bt.destroy();
+            }).catch(function(error) {
+                alert(JSON.stringify(error));
+            });
+        }
+    }
     if(type == 'user')
         $('#' + BLACKPRE + theValue).remove();
     else
